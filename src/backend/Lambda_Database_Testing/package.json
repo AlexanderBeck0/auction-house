@@ -1,0 +1,10 @@
+{
+    "name": "testingdb",
+    "version": "1.0.0",
+    "description": "select from database",
+    "main": "testingDB.mjs",
+    "type": "commonjs",
+    "dependencies": {
+        "mysql": "^2.18.1"
+    }
+}

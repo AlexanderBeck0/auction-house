@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Table</title>
+    <script>
+        async function handleClick() {
+            const tableName = document.getElementById("tableName").value;
+            const payload = {
+                "tableName": tableName,
+            };
+            const response = await fetch("https://bgsfn1wls6.execute-api.us-east-1.amazonaws.com/initial/selectTable", {
+                method: "POST",
+                body: JSON.stringify(payload),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            const result = await response.json();
+            displayResult(result.body);
+        }
+
+        function displayResult(data) {
+            const resultDiv = document.getElementById("result");
+            const jsonData = JSON.parse(data);
+            if (jsonData.length === 0) {
+                resultDiv.innerHTML = "No data found";
+                return;
+            }
+
+            let table = "<table border='1'><tr>";
+            // Create table headers
+            Object.keys(jsonData[0]).forEach(key => {
+                table += `<th>${key}</th>`;
+            });
+            table += "</tr>";
+
+            // Create table rows
+            jsonData.forEach(row => {
+                table += "<tr>";
+                Object.values(row).forEach(value => {
+                    table += `<td>${value}</td>`;
+                });
+                table += "</tr>";
+            });
+            table += "</table>";
+
+            resultDiv.innerHTML = table;
+        }
+    </script>
+</head>
+
+<body>
+    <h1>Select * FROM ______ </h1>
+    Table: &nbsp; <input id="tableName" /> &nbsp;
+    <input type="button" value="View" onClick="JavaScript:handleClick()">
+    <div id="result"></div>
+</body>
+
+</html>
